@@ -98,7 +98,7 @@
 
             function encryptMessage(message) {
                 // Clave de cifrado (debes mantener esto seguro y enviarla al destinatario de manera segura)
-                const key = 'claveSuperSecreta123';
+                const key = '1076123';
                 // Cifrar el mensaje con AES utilizando la clave
                 const encrypted = CryptoJS.AES.encrypt(message, key).toString();
                 return encrypted;
