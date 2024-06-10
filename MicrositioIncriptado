@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micrositio con Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background:   url('fondo rosa.jpg');
+            background-size: cover; /* Ajustar el tamaño de la imagen para cubrir toda la pantalla */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            background-color: rgba(215, 145, 173, 0.9); /* Fondo blanco semitransparente */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #560460; /* Púrpura pastel */
+            margin-bottom: 20px;
+        }
+
+        #chat-box {
+            border: 1px solid #d0c6d7; /* Borde del chat lavanda más oscuro */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        #message-input {
+            width: calc(100% - 85px);
+            padding: 8px;
+            border: 1px solid #ffffff; /* Borde del campo de entrada lavanda más oscuro */
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #send-btn {
+            padding: 8px 15px;
+            background-color: #ff66cc; /* Botón de enviar rosa pastel */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background-color: #ff1a75; /* Color de fondo más oscuro al pasar el mouse */
+        }
+
+        .encrypted-message {
+            font-style: italic; /* Estilo de fuente en cursiva */
+            color: #8103b4; /* Color de texto lavanda más oscuro */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Bienvenido!</h1>
+        <div id="chat-box">
+            <div id="chat"></div>
+        </div>
+        <input type="text" id="message-input" placeholder="Escribe tu mensaje...">
+        <button id="send-btn">Enviar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBox = document.getElementById('chat');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-btn');
+
+            sendButton.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message !== '') {
+                    const encryptedMessage = encryptMessage(message);
+                    appendMessage('You', encryptedMessage);
+                    messageInput.value = '';
+                    // Aquí puedes agregar la lógica para enviar el mensaje al servidor o procesarlo de otra manera
+                }
+            });
+
+            function encryptMessage(message) {
+                // Clave de cifrado (debes mantener esto seguro y enviarla al destinatario de manera segura)
+                const key = 'claveSuperSecreta123';
+                // Cifrar el mensaje con AES utilizando la clave
+                const encrypted = CryptoJS.AES.encrypt(message, key).toString();
+                return encrypted;
+            }
+
+            function appendMessage(sender, message) {
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = `<strong>${sender}:</strong> <span class="encrypted-message">${message} (Mensaje cifrado)</span>`;
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
